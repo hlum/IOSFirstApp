@@ -17,25 +17,18 @@ struct MailPreview: View {
                                         
             } placeholder: {
                 ProgressView()
+                    .frame(width:60,height: 50)//padding=10 imageWidth = 50
             }
 
-//            Image(user.userImage)
-//                .resizable()
-//                .scaledToFit()
-//                .frame(width: 50, height: 50)
-//                .padding(.trailing, 10)
-            
             VStack(alignment: .leading) {
                 Text(user.name)
                     .font(.subheadline)
                 Text(user.title)
                     .font(.subheadline)
                     .lineLimit(1)
-//                    .foregroundColor(.blue)
                 Text(user.body)
                     .font(.subheadline)
                     .lineLimit(1)
-//                    .foregroundColor(.secondary)
             }
             
             VStack{

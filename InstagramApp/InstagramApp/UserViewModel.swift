@@ -20,7 +20,11 @@ class UserViewModel : ObservableObject {
     @Published var sortedUsers : [User] = []
     
     init(){
+        
+            
         self.fetchData()
+        
+        
         
         print("Init called")
     }
@@ -34,10 +38,10 @@ class UserViewModel : ObservableObject {
                 print("got data")
                 if let decodedResponse = try? JSONDecoder().decode([User].self, from: data){
                     print("data decoded")
-                    DispatchQueue.main.async {
-                        self.users = decodedResponse
+                    DispatchQueue.main.async { [weak self] in
+                        self?.users = decodedResponse
                         print("decoded data were added to the users")
-                        self.sortUsersByDate()
+                        self?.sortUsersByDate()
 
                     }
                 }

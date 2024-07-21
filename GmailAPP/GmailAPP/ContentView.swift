@@ -1,23 +1,80 @@
-//
-//  ContentView.swift
-//  GmailAPP
-//
-//  Created by Hlwan Aung Phyo on 2024/07/05.
-//
-
 import SwiftUI
 
+
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+    
+    @StateObject var viewModel = UserViewModel()
+    @State var searchText: String = ""
+    
+    var filteredUsers: [User] {
+        if searchText.isEmpty {
+            return viewModel.sortedUsers
+        } else {
+            return viewModel.sortedUsers.filter { user in
+                user.name.contains(searchText) ||
+                user.emailAdress.contains(searchText) ||
+                user.title.contains(searchText) ||
+                user.body.contains(searchText)
+            }
         }
-        .padding()
+    }
+    
+    var body: some View {
+        NavigationView {
+            // List of Emails
+            ScrollView {
+                SearchBarView
+                    .padding(.horizontal,5)
+                LazyVStack{
+                    ForEach(filteredUsers) { user in
+                        MailPreview(user: user)
+                            .padding(.vertical, 4)
+                        
+                    }
+                    .onDelete(perform: viewModel.deleteUser)
+                }
+            }
+            
+           
+        }
+    }
+    
+}
+
+extension ContentView{
+    private var SearchBarView: some View{
+        Section {
+            HStack{
+                Image(systemName:"line.3.horizontal")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height:15)
+                    .padding()
+                TextField("メールを検索", text: $searchText)
+                    .padding(.horizontal)
+                //                    .frame(maxWidth: .infinity)
+                //                    .frame(height: 50)
+                    .background(Color(.systemGray6))
+                //                    .cornerRadius(10)
+                //                    .shadow(radius: 5)
+                Image(systemName:"person.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 30)
+                    .padding()
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 50)
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
+            .shadow(radius: 10)
+            
+        }
+//        .listRowSeparator(.hidden)
+        
     }
 }
+
 
 #Preview {
     ContentView()

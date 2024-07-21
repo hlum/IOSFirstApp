@@ -13,7 +13,7 @@ class SoundPlayer {
     
     func playSound(FileName: String, FileType: String, loop: Bool = false, volume: Float = 1.0) {
         guard let url = Bundle.main.url(forResource: FileName, withExtension: FileType) else {
-            print("Sound file not found")
+//            print("Sound file not found")
             return
         }
         
@@ -23,7 +23,7 @@ class SoundPlayer {
             audioPlayer?.volume = volume
             audioPlayer?.play()
         } catch let error {
-            print("Error playing sound: \(error.localizedDescription)")
+//            print("Error playing sound: \(error.localizedDescription)")
         }
     }
     
